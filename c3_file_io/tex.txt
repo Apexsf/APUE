@@ -1,0 +1,1 @@
+When you seek to the beginning of the file it simply adjusts the kernel's record of the file offset associated with
