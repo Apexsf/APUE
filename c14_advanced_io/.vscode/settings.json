@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "limits": "c",
+        "stdio.h": "c",
+        "errno.h": "c",
+        "string.h": "c"
+    }
+}
