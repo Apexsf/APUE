@@ -76,7 +76,7 @@ FILE* mypopen(char* cmdstring, char* type){
     return fp;
 }
 
-int myplose(FILE* fp){
+int mypclose(FILE* fp){
     if(childpid == NULL){
         errno = EINVAL;
         return -1;
@@ -109,14 +109,39 @@ int myplose(FILE* fp){
 
 }
 
+// int main(){
+//     char line[4096];
+//     FILE* fin = fopen("./mypopen2.c","r");
+//     FILE* fout = mypopen("more", "w");
+//     while(fgets(line, 4096, fin) != NULL){
+//         fputs(line, fout);
+//     }
+
+//     mypclose(fout);
+
+// }
+
+#define BUFSIZE 4096
 int main(){
-    char line[4096];
-    FILE* fin = fopen("./mypopen2.c","r");
-    FILE* fout = mypopen("more", "w");
-    while(fgets(line, 4096, fin) != NULL){
-        fputs(line, fout);
+    FILE* f1 = mypopen("./tolower","r");
+    if(f1 == NULL){
+        printf("popen failed\n");
+        exit(1);
     }
-
-    myplose(fout);
-
+    char line[BUFSIZ];
+    while (1){
+        if(fputs("prompt>", stdout) == EOF){
+            printf("fputs failed\n");
+            exit(1);
+        }
+        fflush(stdout);
+        if(fgets(line, BUFSIZ, f1) == NULL){
+            break;
+        }
+        if(fputs(line, stdout) == EOF){
+            printf("fputs failed\n");
+            exit(1);
+        }
+    }
+    mypclose(f1);
 }
